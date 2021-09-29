@@ -1,5 +1,5 @@
 body{
-    background: var(--fourth-color);
+    background: var(--secondary-color);
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
  
@@ -94,6 +94,15 @@ h3{
     color: black;
     bottom: -7px;
     left: 0;
+}
+
+.header-menu a div{
+    transition: all 0.5s ease-out;
+}
+
+.header-menu a div:hover{
+    border-radius: 50px;
+    transition: all 0.5s ease-in;
 }
  
 .header-menu div img{
