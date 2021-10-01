@@ -1,10 +1,11 @@
+// All products
 const products = [
     {
         name: "iPhone 13",
         id: "1",
         price: 8990,
         fullPrice: 9790,
-        new: false,
+        new: true,
         preview: "./assets/iPhone-13-midnight4_m.png"
     },
     {
@@ -13,11 +14,43 @@ const products = [
         price: 10990,
         fullPrice: 12970,
         new: true,
-        preview: "./assets/iPhone-13-midnight4_m.png" // må byttes
+        preview: "./assets/iPhone-13-Pro-sierra-blue4_m.png"
     },
+    {
+        name: `MacBook Pro 16" Stellargrå`,
+        id: "3",
+        price: 27490,
+        fullPrice: 29990,
+        new: false,
+        preview: "./assets/mbp16touch-space-select-201911.jpg"
+    },
+    {
+        name: `Playstation 5 Digital Edition`,
+        id: "4",
+        price: 4899,
+        fullPrice: 4999,
+        new: false,
+        preview: "./assets/1077687_3_600x600_w_g.jpg"
+    },
+    {
+        name: `iPad PRO Spacegray`,
+        id: "5",
+        price: 12190,
+        fullPrice: 12490,
+        new: false,
+        preview: "./assets/ipad-pro-12-select-cell-spacegray-202104.jpg"
+    },
+    {
+        name: `Apple Watch SE - Aluminium Solo Loop`,
+        id: "6",
+        price: 3290,
+        fullPrice: 3390,
+        new: false,
+        preview: "./assets/MKVJ3ref_VW_34FR+watch-40-alum-gold-nc-se_VW_34FR_WF_CO.jpg"
+    }
 
 ];
-
+// cartStorage is sessionStorage
 cartStorage = window.sessionStorage;
 
 const setUpEventListeners = function () {
@@ -42,7 +75,6 @@ const searchForProducts = function (value) {
         return product.name.includes(value);
     })
     setUpProducts(filterProducts)
-
     console.log(value, filterProducts)
 }
 
