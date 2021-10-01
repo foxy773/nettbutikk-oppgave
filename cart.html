@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ukomplett</title>
     <link rel="stylesheet" href="./css/reset.css" />
-	<link rel="stylesheet" href="./css/variables.css" />
-	<link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/variables.css" />
+    <link rel="stylesheet" href="./css/style.css" />
 </head>
+
 <body>
     <header>
         <div class="header-splitter">
             <div>
-                <img src="./assets/ukomplett.svg" alt="">
+                <a href="index.html">
+                    <img src="./assets/ukomplett.svg" alt="">
+                </a>
             </div>
             <div>
                 <form role="search" action="">
@@ -27,7 +31,7 @@
                         <img src="./assets/shopping-cart.svg" alt="">
                     </div>
                     <span>1 000.00 kr</span>
-                    <span>1</span>
+                    <span id="cart-info" class="cart-display hidden">1</span>
                 </a>
             </div>
         </div>
@@ -35,15 +39,27 @@
     <main>
         <div class="product-grid-cart">
             <div class="product-card-cart">
-                
-            </div>
-            <div class="product-card-cart">
-                
-            </div>
-            <div class="product-card-cart">
-                
+                <div class="product-cart-content">
+                    <img src="./assets/iPhone-13-midnight4_m.png" alt="">
+                    <h2>iPhone 13</h2>
+                    <div class="product-count-container">
+                        <a id="product-count-dec" option="dec">
+                            <img src="./assets/minus.svg" alt="">
+                        </a>
+                        <input id="product-counter" type="tel" maxlength="3">
+                        <a id="product-count-inc" option="inc">
+                            <img src="./assets/add.svg" alt="">
+                        </a>
+                    </div>
+                    <div class="product-price-counter-container">
+                        <h3>10 000.00 kr</h3>
+                    </div>
+                </div>
             </div>
         </div>
-    </main> 
+    </main>
 </body>
+<script src="./js/javascript-index.js"></script>
+<script src="./js/javascript-cart.js"></script>
+
 </html>
