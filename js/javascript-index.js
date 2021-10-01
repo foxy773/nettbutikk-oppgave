@@ -1,48 +1,107 @@
-cartStorage = window.sessionStorage;
-
-const saveCart = function () {
-    const jsonProducts = JSON.stringify(cart.products)
-    cartStorage.setItem("cart", jsonProducts)
-}
-
-const getCart = function () {
-    const jsonProducts = JSON.parse(cartStorage.getItem("cart"))
-    return jsonProducts
-}
-
-const setUpUi = function () {
-    const products = getCart() || []
-    console.log(products)
-    const cartInfoElem = document.querySelector("#cart-info")
-    cartInfoElem.innerHTML = products.length;
-    if (products.length > 0) {
-        cartInfoElem.classList.remove("hidden")
-    } else {
-        cartInfoElem.classList.add("hidden")
-    }
-}
-
-setUpUi()
-
-// Products on main page
-
 const products = [
     {
         name: "iPhone 13",
+        id: "1",
         price: 8990,
         fullPrice: 9790,
-        new: true,
+        new: false,
         preview: "./assets/iPhone-13-midnight4_m.png"
     },
     {
         name: "iPhone 13 PRO",
+        id: "2",
         price: 10990,
         fullPrice: 12970,
         new: true,
-        preview: ""
+        preview: "./assets/iPhone-13-midnight4_m.png" // må byttes
     },
 
 ];
+
+cartStorage = window.sessionStorage;
+
+const setUpEventListeners = function () {
+    const allBuyButtons = document.querySelectorAll("#addToCartButton")
+    allBuyButtons.forEach((button) => {
+        button.addEventListener("click", function (e) {
+            const id = e.target.dataset.id
+            addProductsToCart(id)
+            saveCart()
+            setUpUi()
+            console.log(e)
+            console.log(id)
+        })
+    });
+}
+
+document.querySelector("#search").addEventListener("input", function (e) {
+    searchForProducts(e.target.value)
+});
+const searchForProducts = function (value) {
+    const filterProducts = products.filter((product) => {
+        return product.name.includes(value);
+    })
+    setUpProducts(filterProducts)
+
+    console.log(value, filterProducts)
+}
+
+const setUpProducts = function (productArray) {
+    const gridElem = document.querySelector(".product-grid")
+    const html = productArray.map((product) => `
+    <div class="product-card">
+                <div class="product-content">
+                    <div class="product-content-badge">
+                    ${product.new ? `<span>NYHET</span>` : `<span class="hidden">NYHET</span>`}
+                    </div >
+                    <div>
+                        <h2>${product.name}</h2>
+                    </div>
+                    <div class="product-content-img">
+                        <img src="${product.preview}" alt="">
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.price},-</h3>
+                        <p>Fullpris <span>${product.fullPrice},-</span></p>
+                    </div>
+                    <a data-id="${product.id}" id="addToCartButton">
+                        Legg i handlekurv
+                        <img src="./assets/shopping-cart.svg" alt="">
+                    </a>
+                </div >
+            </div >
+    `).join("")
+    gridElem.innerHTML = html
+    setUpEventListeners()
+};
+
+const saveCart = function () {
+    const jsonProducts = JSON.stringify(cart.products);
+    cartStorage.setItem("cart", jsonProducts);
+};
+
+const getCart = function () {
+    const jsonProducts = JSON.parse(cartStorage.getItem("cart"));
+    return jsonProducts;
+};
+
+const setUpUi = function () {
+    const products = getCart() || [];
+    console.log(products);
+    const cartInfoElem = document.querySelector("#cart-info");
+    cartInfoElem.innerHTML = products.length;
+    if (products.length > 0) {
+        cartInfoElem.classList.remove("hidden");
+    } else {
+        cartInfoElem.classList.add("hidden");
+    }
+}
+
+// Start up
+setUpUi()
+setUpProducts(products)
+
+
 
 const cart = {
     products: getCart() || [],
@@ -57,28 +116,23 @@ console.log(date)
 const testProducts = getCart()
 console.log(testProducts)
 
-function addProductsToCart() {
-    cart.products.push(products[0]);
-    console.log("Added to cart");
-    console.log(cart);
-    cart.totalPrice = 0;
-    //console.log(cart.totalPrice);
-    saveCart()
-    console.log(getCart())
+function addProductsToCart(id) {
+    const filterProduct = products.filter((product) => {
+        return product.id === id
+    })
+    cart.products.push(filterProduct)
 }
 
 // Event listener
 
-//document.getElementById("addToCartButton").addEventListener("click", function () {
-//    addProductsToCart();
-//});
 
 // Product counter
 
-document.getElementById("addToCartButton").addEventListener("click", function () {
-    addProductsToCart()
-    setUpUi()
-})
+
+
+// document.querySelectorAll("#addToCartButton").addEventListener("click", function () {
+
+// })
 
 
 document.getElementById("product-counter").addEventListener("change", function () {
