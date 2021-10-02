@@ -362,6 +362,20 @@ h3 {
     text-align: center;
 }
 
+.cart-button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.product-cart-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 100%;
+}
+
 /* Utilities */
 
 .hidden{

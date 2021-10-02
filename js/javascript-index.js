@@ -1,7 +1,7 @@
 // All products
 const products = [
     {
-        name: "iPhone 13",
+        name: `iPhone 13`,
         id: "1",
         price: 8990,
         fullPrice: 9790,
@@ -9,7 +9,7 @@ const products = [
         preview: "./assets/iPhone-13-midnight4_m.png"
     },
     {
-        name: "iPhone 13 PRO",
+        name: `iPhone 13 PRO`,
         id: "2",
         price: 10990,
         fullPrice: 12970,
@@ -33,7 +33,7 @@ const products = [
         preview: "./assets/1077687_3_600x600_w_g.jpg"
     },
     {
-        name: `iPad PRO Spacegray`,
+        name: `iPad PRO (2020) 11" Spacegray`,
         id: "5",
         price: 12190,
         fullPrice: 12490,
@@ -47,6 +47,38 @@ const products = [
         fullPrice: 3390,
         new: false,
         preview: "./assets/MKVJ3ref_VW_34FR+watch-40-alum-gold-nc-se_VW_34FR_WF_CO.jpg"
+    },
+    {
+        name: `Xbox Series S Bundle`,
+        id: "7",
+        price: 3799,
+        fullPrice: 3948,
+        new: false,
+        preview: "./assets/2bbae9c6-b091-49f2-96b3-a8f0fa65eb86.png"
+    },
+    {
+        name: `Steam Deck 512GB NVMe SSD`,
+        id: "8",
+        price: 6499,
+        fullPrice: 6999,
+        new: true,
+        preview: "./assets/iXEae55745C4K3ucTGGjBF.jpg"
+    },
+    {
+        name: `iPad mini (2021) 8.3" 64GB Stellargrå`,
+        id: "9",
+        price: 7790,
+        fullPrice: 7890,
+        new: true,
+        preview: "./assets/1196159.png"
+    },
+    {
+        name: `GoPro HERO10 Black`,
+        id: "10",
+        price: 5799,
+        fullPrice: 5999,
+        new: true,
+        preview: "./assets/1192766.png"
     }
 
 ];
@@ -140,10 +172,6 @@ const cart = {
     //totalPrice: this.products.price
 };
 
-
-
-const date = new Date()
-console.log(date)
 
 const testProducts = getCart()
 console.log(testProducts)
