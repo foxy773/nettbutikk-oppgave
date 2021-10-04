@@ -79,12 +79,31 @@ const products = [
         fullPrice: 5999,
         new: true,
         preview: "./assets/1192766.png"
+    },
+    {
+        name: `Apple Airpods PRO`,
+        id: "11",
+        price: 2999,
+        fullPrice: 3299,
+        new: false,
+        preview: "./assets/1037413_10_600x600_w_g.jpg"
+    },
+    {
+        name: `Oculus Quest 2`,
+        id: "12",
+        price: 3849,
+        fullPrice: 3999,
+        new: false,
+        preview: "./assets/188217273_375087057231358_2364163511002099082_n.jpeg"
     }
-
 ];
 // cartStorage is sessionStorage
 cartStorage = window.sessionStorage;
 
+/* Adds eventlistners for each button with the id "addToCartButton"
+and calls upon 3 functions that sets up the UI, saves items from the
+cart array to session storrage, and add products to cart with the 
+same id as the buttons.*/
 const setUpEventListeners = function () {
     const allBuyButtons = document.querySelectorAll("#addToCartButton")
     allBuyButtons.forEach((button) => {
@@ -93,8 +112,6 @@ const setUpEventListeners = function () {
             addProductsToCart(id)
             saveCart()
             setUpUi()
-            console.log(e)
-            console.log(id)
         })
     });
 }
