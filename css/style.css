@@ -203,11 +203,18 @@ h3 {
     justify-content: space-around;
     width: 100%;
     height: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
 }
 
 .product-cart-content img {
-    width: 100px;
+    width: 80px;
     height: auto;
+}
+
+.product-cart-content h3 {
+    width: 70px;
 }
  
 .product-content-badge {

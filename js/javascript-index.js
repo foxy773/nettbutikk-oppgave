@@ -116,8 +116,8 @@ const setUpEventListeners = function () {
     });
 }
 
-document.querySelector("#search").addEventListener("input", function (e) {
-    searchForProducts(e.target.value)
+const search = document.querySelector("#search").addEventListener("input", function (e) {
+        searchForProducts(e.target.value)
 });
 const searchForProducts = function (value) {
     const filterProducts = products.filter((product) => {
@@ -156,6 +156,13 @@ const setUpProducts = function (productArray) {
     setUpEventListeners()
 };
 
+const calculateTotal = function(cartArray) {
+    const productPrice = cartArray.map((product)=>{
+        totalPrice += product.price;
+        fullPrice += product.fullPrice;
+    })
+};
+
 const saveCart = function () {
     const jsonProducts = JSON.stringify(cart.products);
     cartStorage.setItem("cart", jsonProducts);
@@ -178,17 +185,14 @@ const setUpUi = function () {
     }
 }
 
+const cart = {
+    products: getCart() || [],
+};
+console.log(cart)
+
 // Start up
 setUpUi()
 setUpProducts(products)
-
-
-
-const cart = {
-    products: getCart() || [],
-    //totalPrice: this.products.price
-};
-
 
 const testProducts = getCart()
 console.log(testProducts)
@@ -199,24 +203,3 @@ function addProductsToCart(id) {
     })
     cart.products.push(filterProduct)
 }
-
-// Event listener
-
-
-// Product counter
-
-
-
-// document.querySelectorAll("#addToCartButton").addEventListener("click", function () {
-
-// })
-
-
-document.getElementById("product-counter").addEventListener("change", function () {
-    if (document.querySelector("product-counter").value < 0) {
-        document.querySelector("product-counter").value = 0;
-    }
-})
-
-
-console.log("hi")
