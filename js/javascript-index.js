@@ -1,12 +1,12 @@
 // All products
 const products = [
     {
-        name: `iPhone 13`,
-        id: "1",
-        price: 8990,
-        fullPrice: 9790,
-        new: true,
-        preview: "./assets/iPhone-13-midnight4_m.png"
+        name: `iPhone 13`,  // Name of product
+        id: "1",            // Id of product
+        price: 8990,        // Current price of product
+        fullPrice: 9790,    // Old price
+        new: true,          // Displays a NYHET span
+        preview: "./assets/iPhone-13-midnight4_m.png"   // Image of product
     },
     {
         name: `iPhone 13 PRO`,
@@ -135,7 +135,7 @@ const setUpProducts = function (productArray) {
                     <div class="product-content-badge">
                     ${product.new ? `<span>NYHET</span>` : `<span class="hidden">NYHET</span>`}
                     </div >
-                    <div>
+                    <div class="product-content-name">
                         <h2>${product.name}</h2>
                     </div>
                     <div class="product-content-img">
