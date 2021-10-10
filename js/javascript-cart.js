@@ -1,20 +1,10 @@
 
-// Event listener
-
-//document.getElementById("addToCartButton").addEventListener("click", function () {
-//    addProductsToCart();
-//});
-
-// Product counter
-
-// Test
-
 cartStorage = window.sessionStorage;
 
 const setUpCart = function (cartArray) {
-    console.log(cartArray.products);
     const gridElem = document.querySelector(".product-grid-cart")
     const html = cartArray.map((product) => {
+        console.log(product)
         return `
         <div class="product-card-cart">
                     <div class="product-cart-content">
@@ -24,7 +14,7 @@ const setUpCart = function (cartArray) {
                             <a id="product-count-dec" option="dec">
                                 <img src="./assets/minus.svg" alt="">
                             </a>
-                            <input id="product-counter" type="tel" maxlength="3">
+                            <input id="product-counter" type="tel" maxlength="3" value="${product[0].count}">
                             <a id="product-count-inc" option="inc">
                                 <img src="./assets/add.svg" alt="">
                             </a>
@@ -41,47 +31,65 @@ const setUpCart = function (cartArray) {
     gridElem.innerHTML = html
 };
 
-
+// getCart gets items from the sessionStorage(cartStorage) and filters them in an array before returning it to the cart.
 const getCart = function () {
     const jsonProducts = JSON.parse(cartStorage.getItem("cart"));
-    return jsonProducts;
+    const stringedCart = jsonProducts.map((cartItem)=> JSON.stringify(cartItem))
+    const filteredCart = Array.from(new Set(stringedCart)).map((cartItem)=> {   // Filters all products to one and gives them a amount based on same products in stringedCart.
+        const parsedItem = JSON.parse(cartItem);
+        let count = 1;
+        count = jsonProducts.filter((product) => product[0].id === parsedItem[0].id).length
+        parsedItem[0].count = count;
+        console.log(count)
+        return parsedItem
+    });
+
+    console.log(filteredCart)
+    return filteredCart;
 };
 
+// The array that hold all products that are currently in the cart.
 const cart = {
-    products: getCart() || [],
+    products: getCart() || [],  // Runs the function getCart if filteredCart is empty Cart will stay an empty array.
 };
 
 
-// Makes sure the product value cant be below 1
-function productCountChecker() {
-    console.log(productCounter.value)
-    if (productCounter.value < 1) {
-        productCounter.value = 1;
+// Makes sure the product count cant be below 1
+function productCountChecker(productCountValue) {
+    console.log(productCountValue.value)
+    if (productCountValue.value < 1) {
+        productCountValue.value = 1;
         console.log("Invalid Value")
     }
 }
 
-// End test
+// Empties the entire cart
 document.getElementById("empty-cart").addEventListener("click", function () {
     sessionStorage.clear()
     location.reload()
 });
 
-setUpCart(cart.products)
-
-const productCounter = document.querySelector("#product-counter");
-document.getElementById("product-count-dec").addEventListener("click", function () {
-    productCounter.value--;
-    productCountChecker();
-});
-
-document.getElementById("product-count-inc").addEventListener("click", function () {
-    productCounter.value++;
-    productCountChecker();
-});
-
-document.querySelector("#product-counter").addEventListener("change", function () {
-    productCountChecker();
-})
-
-console.log(cart)
+// Defines AllCountContainer as all product-count-container classes and checks if they are clicked.
+const setUpEventListenerTest = function() {
+    const allCountContainer = document.querySelectorAll(".product-count-container")
+    allCountContainer.forEach((container) => {
+        const decCountEl = container.querySelector("#product-count-dec")
+        const incCountEl = container.querySelector("#product-count-inc")
+        const productCounter = container.querySelector("#product-counter");
+        decCountEl.addEventListener("click", () =>{
+            productCounter.value--;
+            productCountChecker(productCounter);
+        })
+        incCountEl.addEventListener("click", () =>{
+            productCounter.value++;
+            productCountChecker(productCounter);    // Get all product count containers and runs the productCountChecker function that checks if they are under 1.
+        })
+        productCounter.addEventListener("change", () =>{
+            productCountChecker(productCounter);    // --""--
+        })
+        console.log(decCountEl)
+    })
+    
+}
+setUpCart(cart.products)    // Gets the cart's products and send it to setUpCart Function.
+setUpEventListenerTest()    // Runs the function that adds more products.
