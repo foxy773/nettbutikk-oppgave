@@ -1,12 +1,13 @@
-// All products
+// All products.
 const products = [
     {
-        name: `iPhone 13`,  // Name of product
-        id: "1",            // Id of product
-        price: 8990,        // Current price of product
-        fullPrice: 9790,    // Old price
-        new: true,          // Displays a NYHET span
-        preview: "./assets/iPhone-13-midnight4_m.png"   // Image of product
+        name: `iPhone 13`,  // Name of product.
+        id: "1",            // Id of product.
+        price: 8990,        // Current price of product.
+        fullPrice: 9790,    // Old price.
+        new: true,          // Displays a NYHET span.
+        preview: "./assets/iPhone-13-midnight4_m.png",   // Image of product.
+        count: 0            // Amount of products (Will be used when in cart)
     },
     {
         name: `iPhone 13 PRO`,
@@ -14,7 +15,8 @@ const products = [
         price: 10990,
         fullPrice: 12970,
         new: true,
-        preview: "./assets/iPhone-13-Pro-sierra-blue4_m.png"
+        preview: "./assets/iPhone-13-Pro-sierra-blue4_m.png",
+        count: 0
     },
     {
         name: `MacBook Pro 16" Stellargrå`,
@@ -22,7 +24,8 @@ const products = [
         price: 27490,
         fullPrice: 29990,
         new: false,
-        preview: "./assets/mbp16touch-space-select-201911.jpg"
+        preview: "./assets/mbp16touch-space-select-201911.jpg",
+        count: 0
     },
     {
         name: `Playstation 5 Digital Edition`,
@@ -30,7 +33,8 @@ const products = [
         price: 4899,
         fullPrice: 4999,
         new: false,
-        preview: "./assets/1077687_3_600x600_w_g.jpg"
+        preview: "./assets/1077687_3_600x600_w_g.jpg",
+        count: 0 
     },
     {
         name: `iPad PRO (2020) 11" Spacegray`,
@@ -38,7 +42,8 @@ const products = [
         price: 12190,
         fullPrice: 12490,
         new: false,
-        preview: "./assets/ipad-pro-12-select-cell-spacegray-202104.jpg"
+        preview: "./assets/ipad-pro-12-select-cell-spacegray-202104.jpg",
+        count: 0 
     },
     {
         name: `Apple Watch SE - Aluminium Solo Loop`,
@@ -46,7 +51,8 @@ const products = [
         price: 3290,
         fullPrice: 3390,
         new: false,
-        preview: "./assets/MKVJ3ref_VW_34FR+watch-40-alum-gold-nc-se_VW_34FR_WF_CO.jpg"
+        preview: "./assets/MKVJ3ref_VW_34FR+watch-40-alum-gold-nc-se_VW_34FR_WF_CO.jpg",
+        count: 0
     },
     {
         name: `Xbox Series S Bundle`,
@@ -54,7 +60,8 @@ const products = [
         price: 3799,
         fullPrice: 3948,
         new: false,
-        preview: "./assets/2bbae9c6-b091-49f2-96b3-a8f0fa65eb86.png"
+        preview: "./assets/2bbae9c6-b091-49f2-96b3-a8f0fa65eb86.png",
+        count: 0
     },
     {
         name: `Steam Deck 512GB NVMe SSD`,
@@ -62,7 +69,8 @@ const products = [
         price: 6499,
         fullPrice: 6999,
         new: true,
-        preview: "./assets/iXEae55745C4K3ucTGGjBF.jpg"
+        preview: "./assets/iXEae55745C4K3ucTGGjBF.jpg",
+        count: 0
     },
     {
         name: `iPad mini (2021) 8.3" 64GB Stellargrå`,
@@ -70,7 +78,8 @@ const products = [
         price: 7790,
         fullPrice: 7890,
         new: true,
-        preview: "./assets/1196159.png"
+        preview: "./assets/1196159.png",
+        count: 0
     },
     {
         name: `GoPro HERO10 Black`,
@@ -78,7 +87,8 @@ const products = [
         price: 5799,
         fullPrice: 5999,
         new: true,
-        preview: "./assets/1192766.png"
+        preview: "./assets/1192766.png",
+        count: 0 
     },
     {
         name: `Apple Airpods PRO`,
@@ -86,7 +96,8 @@ const products = [
         price: 2999,
         fullPrice: 3299,
         new: false,
-        preview: "./assets/1037413_10_600x600_w_g.jpg"
+        preview: "./assets/1037413_10_600x600_w_g.jpg",
+        count: 0
     },
     {
         name: `Oculus Quest 2`,
@@ -94,10 +105,11 @@ const products = [
         price: 3849,
         fullPrice: 3999,
         new: false,
-        preview: "./assets/188217273_375087057231358_2364163511002099082_n.jpeg"
+        preview: "./assets/188217273_375087057231358_2364163511002099082_n.jpeg",
+        count: 0
     }
 ];
-// cartStorage is sessionStorage
+// cartStorage is sessionStorage.
 cartStorage = window.sessionStorage;
 
 /* Adds eventlistners for each button with the id "addToCartButton"
@@ -116,90 +128,133 @@ const setUpEventListeners = function () {
     });
 }
 
+// The search textbox is defined as search.
 const search = document.querySelector("#search").addEventListener("input", function (e) {
+    const gridElem = document.querySelector(".product-grid")
+    gridElem.innerHTML = ""
         searchForProducts(e.target.value)
 });
+
+// Filters through all products and returns all products that includes searched for name.
 const searchForProducts = function (value) {
     const filterProducts = products.filter((product) => {
-        return product.name.includes(value);
+        return product.name.toLowerCase().includes(value.toLowerCase());
     })
     setUpProducts(filterProducts)
     console.log(value, filterProducts)
 }
 
+// Sets up all products by itterating though the products array and injects them in the product-grid class.
 const setUpProducts = function (productArray) {
-    const gridElem = document.querySelector(".product-grid")
-    const html = productArray.map((product) => `
-    <div class="product-card">
-                <div class="product-content">
-                    <div class="product-content-badge">
-                    ${product.new ? `<span>NYHET</span>` : `<span class="hidden">NYHET</span>`}
-                    </div >
-                    <div class="product-content-name">
-                        <h2>${product.name}</h2>
-                    </div>
-                    <div class="product-content-img">
-                        <img src="${product.preview}" alt="">
-                    </div>
-                    <div class="product-info">
-                        <h3>${product.price},-</h3>
-                        <p>Fullpris <span>${product.fullPrice},-</span></p>
-                    </div>
-                    <a data-id="${product.id}" id="addToCartButton">
-                        Legg i handlekurv
-                        <img src="./assets/shopping-cart.svg" alt="">
-                    </a>
-                </div >
-            </div >
-    `).join("")
-    gridElem.innerHTML = html
+    const html = productArray.map((product) => {
+        // Creates HTML elements.
+        const gridElem = document.querySelector(".product-grid")
+        const productCard = document.createElement("div")
+        const productContent = document.createElement("div")
+        const productContentBadge = document.createElement("div")
+        const productContentBadgeSpan = document.createElement("span")
+        const productNameContainer = document.createElement("div")
+        const productName = document.createElement("h2")
+        const productContentImage = document.createElement("div")
+        const productPreview = document.createElement("img")
+        const productInfo = document.createElement("div")
+        const price = document.createElement("h3")
+        const fullPrice = document.createElement("p")
+        const fullPriceSpan = document.createElement("span")
+        const addToCartButton = document.createElement("a")
+        const shoppingCartImage = document.createElement("img")
+        console.log(addToCartButton)
+        // Gives elements classes.
+        productCard.className = "product-card"
+        productContent.className = "product-content"
+        productContentBadge.className = "product-content-badge"
+        productContentImage.className = "product-content-img"
+        productInfo.className = "product-info"
+
+        // Gives elements id´s.
+        addToCartButton.id = "addToCartButton"
+
+        // Gives elements properties.
+        productContentBadgeSpan.innerText = "NYHET"
+        productPreview.src = product.preview
+        productName.innerText = product.name
+        price.innerText = `${product.price},-`
+        fullPrice.innerText = "Fullpris "
+        fullPriceSpan.innerText = `${product.fullPrice},-`
+        addToCartButton.innerText = "Legg i handlekurv"
+        shoppingCartImage.src = "./assets/shopping-cart.svg"
+
+        // Appends elements.
+        gridElem.appendChild(productCard)
+        productCard.appendChild(productContent)
+        productContent.appendChild(productContentBadge)
+        productContentBadge.appendChild(productContentBadgeSpan)
+        productContent.appendChild(productNameContainer)
+        productNameContainer.appendChild(productName)
+        productContent.appendChild(productContentImage)
+        productContentImage.appendChild(productPreview)
+        productContent.appendChild(productInfo)
+        productInfo.appendChild(price)
+        productInfo.appendChild(fullPrice)
+        fullPrice.appendChild(fullPriceSpan)
+        productContent.appendChild(addToCartButton)
+        addToCartButton.appendChild(shoppingCartImage)
+        // add dataid to html
+        addToCartButton.setAttribute("data-id", product.id)
+    })
     setUpEventListeners()
 };
 
+// !!! NOT DONE AND NOT CALLED YET. Calculates total price of all products to be displayed in the cart on index top right.
 const calculateTotal = function(cartArray) {
-    const productPrice = cartArray.map((product)=>{
-        totalPrice += product.price;
-        fullPrice += product.fullPrice;
-    })
+    let sum = 0;
+    const productPrice = cartArray.forEach((product)=>{
+    });
+    return sum
 };
 
+// Saves the cart in sessionStorage.
 const saveCart = function () {
     const jsonProducts = JSON.stringify(cart.products);
     cartStorage.setItem("cart", jsonProducts);
 };
 
+// Gets cart from sessionStorage.
 const getCart = function () {
     const jsonProducts = JSON.parse(cartStorage.getItem("cart"));
     return jsonProducts;
 };
 
+// Defines how many products you have in cart 
 const setUpUi = function () {
     const products = getCart() || [];
-    console.log(products);
     const cartInfoElem = document.querySelector("#cart-info");
     cartInfoElem.innerHTML = products.length;
+    const cartPrice = document.querySelector("#cart-price");
     if (products.length > 0) {
         cartInfoElem.classList.remove("hidden");
     } else {
         cartInfoElem.classList.add("hidden");
     }
+    cartPrice.innerHTML = `${calculateTotal(cart.products).toLocaleString()}.00 kr` // !!! NOT DONE
 }
 
+// Holds all products that is added to cart.
 const cart = {
     products: getCart() || [],
 };
-console.log(cart)
+
+function addProductsToCart(id) {
+    const filterProduct = products.filter((product) => {
+        if(product.id === id ){
+        product.count++
+        }
+        return product.id === id
+    })
+    cart.products.push(filterProduct)
+    console.log("i am a updated cart", cart)
+}
 
 // Start up
 setUpUi()
 setUpProducts(products)
-
-const testProducts = getCart()
-console.log(testProducts)
-
-function addProductsToCart(id) {
-    const filterProduct = products.filter((product) => {
-        return product.id === id
-    })
-    cart.products.push(filterProduct)
-}
