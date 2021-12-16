@@ -7,8 +7,9 @@ const products = [
         fullPrice: 9790,    // Old price.
         new: true,          // Displays a NYHET span.
         preview: "./assets/iPhone-13-midnight4_m.png",   // Image of product.
-        count: 0            // Amount of products (Will be used when in cart)
+        count: 0            // Amount of products (Will be used when in cart).
     },
+
     {
         name: `iPhone 13 PRO`,
         id: "2",
@@ -18,6 +19,7 @@ const products = [
         preview: "./assets/iPhone-13-Pro-sierra-blue4_m.png",
         count: 0
     },
+
     {
         name: `MacBook Pro 16" Stellargrå`,
         id: "3",
@@ -27,6 +29,7 @@ const products = [
         preview: "./assets/mbp16touch-space-select-201911.jpg",
         count: 0
     },
+
     {
         name: `Playstation 5 Digital Edition`,
         id: "4",
@@ -36,6 +39,7 @@ const products = [
         preview: "./assets/1077687_3_600x600_w_g.jpg",
         count: 0 
     },
+
     {
         name: `iPad PRO (2020) 11" Spacegray`,
         id: "5",
@@ -45,6 +49,7 @@ const products = [
         preview: "./assets/ipad-pro-12-select-cell-spacegray-202104.jpg",
         count: 0 
     },
+
     {
         name: `Apple Watch SE - Aluminium Solo Loop`,
         id: "6",
@@ -54,6 +59,7 @@ const products = [
         preview: "./assets/MKVJ3ref_VW_34FR+watch-40-alum-gold-nc-se_VW_34FR_WF_CO.jpg",
         count: 0
     },
+
     {
         name: `Xbox Series S Bundle`,
         id: "7",
@@ -63,6 +69,7 @@ const products = [
         preview: "./assets/2bbae9c6-b091-49f2-96b3-a8f0fa65eb86.png",
         count: 0
     },
+
     {
         name: `Steam Deck 512GB NVMe SSD`,
         id: "8",
@@ -72,6 +79,7 @@ const products = [
         preview: "./assets/iXEae55745C4K3ucTGGjBF.jpg",
         count: 0
     },
+
     {
         name: `iPad mini (2021) 8.3" 64GB Stellargrå`,
         id: "9",
@@ -81,6 +89,7 @@ const products = [
         preview: "./assets/1196159.png",
         count: 0
     },
+
     {
         name: `GoPro HERO10 Black`,
         id: "10",
@@ -90,6 +99,7 @@ const products = [
         preview: "./assets/1192766.png",
         count: 0 
     },
+
     {
         name: `Apple Airpods PRO`,
         id: "11",
@@ -99,6 +109,7 @@ const products = [
         preview: "./assets/1037413_10_600x600_w_g.jpg",
         count: 0
     },
+
     {
         name: `Oculus Quest 2`,
         id: "12",
@@ -109,6 +120,7 @@ const products = [
         count: 0
     }
 ];
+
 // cartStorage is sessionStorage.
 cartStorage = window.sessionStorage;
 
@@ -128,7 +140,7 @@ const setUpEventListeners = function () {
     });
 }
 
-// The search textbox is defined as search.
+// Eventlistener for the search box and runs the searchForProducts() function.
 const search = document.querySelector("#search").addEventListener("input", function (e) {
     const gridElem = document.querySelector(".product-grid")
     gridElem.innerHTML = ""
@@ -141,12 +153,12 @@ const searchForProducts = function (value) {
         return product.name.toLowerCase().includes(value.toLowerCase());
     })
     setUpProducts(filterProducts)
-    console.log(value, filterProducts)
 }
 
 // Sets up all products by itterating though the products array and injects them in the product-grid class.
 const setUpProducts = function (productArray) {
     const html = productArray.map((product) => {
+
         // Creates HTML elements.
         const gridElem = document.querySelector(".product-grid")
         const productCard = document.createElement("div")
@@ -163,7 +175,7 @@ const setUpProducts = function (productArray) {
         const fullPriceSpan = document.createElement("span")
         const addToCartButton = document.createElement("a")
         const shoppingCartImage = document.createElement("img")
-        console.log(addToCartButton)
+
         // Gives elements classes.
         productCard.className = "product-card"
         productContent.className = "product-content"
@@ -199,13 +211,14 @@ const setUpProducts = function (productArray) {
         fullPrice.appendChild(fullPriceSpan)
         productContent.appendChild(addToCartButton)
         addToCartButton.appendChild(shoppingCartImage)
-        // add dataid to html
+
+        // add dataid to html.
         addToCartButton.setAttribute("data-id", product.id)
     })
     setUpEventListeners()
 };
 
-// !!! NOT DONE AND NOT CALLED YET. Calculates total price of all products to be displayed in the cart on index top right.
+// Calculates total price of all products to be displayed in the cart on index top right.
 const calculateTotal = function(cartArray) {
     let sum = 0;
     const productPrice = cartArray.forEach((product)=>{
@@ -221,22 +234,33 @@ const saveCart = function () {
 
 // Gets cart from sessionStorage.
 const getCart = function () {
-    const jsonProducts = JSON.parse(cartStorage.getItem("cart"));
-    return jsonProducts;
+    const jsonProducts = JSON.parse(cartStorage.getItem("cart")) || []
+    const flattenProducts = jsonProducts.flat()
+
+    const unique = {}
+    const filteredCart = flattenProducts.filter((obj) => {
+       return !unique[obj.id] && (unique[obj.id] = true)
+    })
+    return filteredCart;
 };
 
-// Defines how many products you have in cart 
+// Sets up much of the information in the UI.
 const setUpUi = function () {
     const products = getCart() || [];
     const cartInfoElem = document.querySelector("#cart-info");
-    cartInfoElem.innerHTML = products.length;
-    const cartPrice = document.querySelector("#cart-price");
+    const cartCount = products.reduce((acc, item) =>  Number(item.count) + Number(acc), 0 )
+    const cartPrice = products.reduce((acc, item) =>  item.price * item.count + acc, 0)
+    cartInfoElem.innerHTML =  `${cartCount}`
+
+    const cartPriceEl = document.querySelector("#cart-price");
+    cartPriceEl.innerHTML = `${cartPrice}kr`
+
     if (products.length > 0) {
         cartInfoElem.classList.remove("hidden");
     } else {
         cartInfoElem.classList.add("hidden");
     }
-    cartPrice.innerHTML = `${calculateTotal(cart.products).toLocaleString()}.00 kr` // !!! NOT DONE
+    cartPrice.innerHTML = `${calculateTotal(products).toLocaleString()}.00 kr` // !!! NOT DONE
 }
 
 // Holds all products that is added to cart.
@@ -247,14 +271,13 @@ const cart = {
 function addProductsToCart(id) {
     const filterProduct = products.filter((product) => {
         if(product.id === id ){
-        product.count++
+        product.count ++
         }
         return product.id === id
     })
     cart.products.push(filterProduct)
-    console.log("i am a updated cart", cart)
 }
 
 // Start up
-setUpUi()
 setUpProducts(products)
+setUpUi()
